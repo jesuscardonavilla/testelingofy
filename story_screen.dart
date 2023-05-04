@@ -1,64 +1,47 @@
+import 'dart:async' show Future;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class StoryScreen extends StatefulWidget {
   final String language;
   final int level;
-  final List<String> stories;
+  final int storyIndex;
 
-  StoryScreen({required this.language, required this.level, required this.stories});
+  StoryScreen({required this.language, required this.level, required this.storyIndex});
 
   @override
   _StoryScreenState createState() => _StoryScreenState();
 }
 
 class _StoryScreenState extends State<StoryScreen> {
-  int _currentIndex = 0;
+  String _storyText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStoryText();
+  }
+
+  Future<void> _loadStoryText() async {
+    String fileName = 'assets/${widget.language}/level${widget.level}/story${widget.storyIndex}.txt';
+    String storyText = await rootBundle.loadString(fileName);
+    setState(() {
+      _storyText = storyText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.language} - ${widget.level}'),
+        title: Text('Story ${widget.storyIndex}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                widget.stories[_currentIndex],
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  if (_currentIndex > 0)
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _currentIndex--;
-                        });
-                      },
-                      child: Text('Anterior'),
-                    ),
-                  if (_currentIndex < widget.stories.length - 1)
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _currentIndex++;
-                        });
-                      },
-                      child: Text('Siguiente'),
-                    ),
-                ],
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: Text(
+            _storyText,
+            style: TextStyle(fontSize: 20.0),
           ),
         ),
       ),
