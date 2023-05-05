@@ -1,42 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:teste/level_selection_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final String language;
+  final String difficulty;
 
-  HomeScreen({required this.language});
+  const HomeScreen({Key? key, required this.language, required this.difficulty})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Testelingofy'),
+        title: Text('Languify'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Welcome to Testelingofy!',
-              style: TextStyle(fontSize: 24),
+              'Selected language: $language',
+              style: TextStyle(fontSize: 24.0),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 20.0),
             Text(
-              'You have selected $language.',
-              style: TextStyle(fontSize: 18),
+              'Selected difficulty: $difficulty',
+              style: TextStyle(fontSize: 24.0),
             ),
-            SizedBox(height: 32),
-            ElevatedButton(
-              child: Text('Select a level'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LevelSelectionScreen(language: language),
-                  ),
-                );
-              },
-            ),
+            SizedBox(height: 20.0),
           ],
         ),
       ),
