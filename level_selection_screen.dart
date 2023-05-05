@@ -1,63 +1,91 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'story_screen.dart';
+import 'package:lingofy/text_screen.dart';
 
-class LevelSelectionScreen extends StatefulWidget {
+class LevelPage extends StatefulWidget {
   final String language;
-  final List<int> levels;
 
-  LevelSelectionScreen({required this.language, required this.levels});
+  const LevelPage({Key? key, required this.language}) : super(key: key);
 
   @override
-  _LevelSelectionScreenState createState() => _LevelSelectionScreenState();
+  _LevelPageState createState() => _LevelPageState();
 }
 
-class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
-  List<Map<String, dynamic>> stories = [];
-
-  @override
-  void initState() {
-    super.initState();
-    loadStories();
-  }
-
-  Future<void> loadStories() async {
-    String data =
-    await DefaultAssetBundle.of(context).loadString("assets/${widget.language}/stories.json");
-    List<dynamic> jsonResult = json.decode(data);
-
-    setState(() {
-      stories = jsonResult.cast<Map<String, dynamic>>();
-    });
-  }
+class _LevelPageState extends State<LevelPage> {
+  final Map<String, Map<String, String>> levelLabels = {
+    'English': {
+      'Beginner': 'Beginner',
+      'Intermediate': 'Intermediate',
+      'Advanced': 'Advanced',
+    },
+    'Italiano': {
+      'Beginner': 'Principiante',
+      'Intermediate': 'Intermedio',
+      'Advanced': 'Avanzato',
+    },
+    '中文': {
+      'Beginner': '初学者',
+      'Intermediate': '中级',
+      'Advanced': '高级',
+    },
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.language),
-      ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: widget.levels.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ElevatedButton(
-              child: Text("Level ${widget.levels[index]}"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => StoryScreen(
-                      language: widget.language,
-                      level: widget.levels[index],
-                      stories: stories,
-                    ),
+      appBar: AppBar(title: Text('${widget.language} Levels')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoryPage(
+                    language: widget.language,
+                    level: 'Beginner',
                   ),
-                );
-              },
-            );
-          },
-        ),
+                ),
+              );
+
+              // TODO: Add code to navigate to the StoryPage for the beginner level
+            },
+            child: Text(levelLabels[widget.language]!['Beginner']!),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoryPage(
+                    language: widget.language,
+                    level: 'Intermediate',
+                  ),
+                ),
+              );
+
+              // TODO: Add code to navigate to the StoryPage for the intermediate level
+            },
+            child: Text(levelLabels[widget.language]!['Intermediate']!),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoryPage(
+                    language: widget.language,
+                    level: 'Advanced',
+                  ),
+                ),
+              );
+
+              // TODO: Add code to navigate to the StoryPage for the advanced level
+            },
+            child: Text(levelLabels[widget.language]!['Advanced']!)
+            ,
+          ),
+        ],
       ),
     );
   }
