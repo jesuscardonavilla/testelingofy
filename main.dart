@@ -8,6 +8,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final List<String> languages = ['English', 'Español', 'Français', 'Deutsch', 'Italiano', 'Português', '中文', '日本語'];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,4 +19,7 @@ class MyApp extends StatelessWidget {
       ),
       home: LanguageSelectionScreen(),
     );
+  }
 }
+
+
