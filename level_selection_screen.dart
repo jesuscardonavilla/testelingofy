@@ -3,8 +3,10 @@ import 'package:lingofy/text_screen.dart';
 
 class LevelPage extends StatefulWidget {
   final String language;
+  final String level;
 
-  const LevelPage({Key? key, required this.language}) : super(key: key);
+  const LevelPage({Key? key, required this.language, required this.level}) : super(key: key);
+
 
   @override
   _LevelPageState createState() => _LevelPageState();
@@ -41,7 +43,7 @@ class _LevelPageState extends State<LevelPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StoryPage(
+                  builder: (context) => LevelPage(
                     language: widget.language,
                     level: 'Beginner',
                   ),
@@ -57,7 +59,7 @@ class _LevelPageState extends State<LevelPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StoryPage(
+                  builder: (context) => LevelPage(
                     language: widget.language,
                     level: 'Intermediate',
                   ),
@@ -73,7 +75,7 @@ class _LevelPageState extends State<LevelPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StoryPage(
+                  builder: (context) => LevelPage(
                     language: widget.language,
                     level: 'Advanced',
                   ),
