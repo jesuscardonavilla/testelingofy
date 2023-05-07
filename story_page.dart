@@ -12,20 +12,6 @@ class StoryPage extends StatefulWidget {
   _StoryPageState createState() => _StoryPageState();
 }
 
-class Section {
-  final String title;
-  final String body;
-
-  Section({required this.title, required this.body});
-
-  factory Section.fromJson(Map<String, dynamic> json) {
-    return Section(
-      title: json['title'],
-      body: json['body'],
-    );
-  }
-}
-
 class _StoryPageState extends State<StoryPage> {
   late Future<List<Section>> _storySectionsFuture;
 
@@ -37,7 +23,7 @@ class _StoryPageState extends State<StoryPage> {
 
   Future<List<Section>> _loadStorySections() async {
     String jsonString = await rootBundle.loadString(
-        'assets/data/${widget.language}/${widget.level}/story_1.json');
+        'assets/data/${widget.language.toLowerCase()}/${widget.level.toLowerCase()}/story_1.json');
     List<dynamic> jsonList = json.decode(jsonString);
     List<Section> sections =
     jsonList.map((s) => Section.fromJson(s)).toList();
@@ -86,3 +72,18 @@ class _StoryPageState extends State<StoryPage> {
     );
   }
 }
+
+class Section {
+  final String title;
+  final String body;
+
+  Section({required this.title, required this.body});
+
+  factory Section.fromJson(Map<String, dynamic> json) {
+    return Section(
+      title: json['title'],
+      body: json['body'],
+    );
+  }
+}
+
