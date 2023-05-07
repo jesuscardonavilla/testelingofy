@@ -1,35 +1,59 @@
 import 'package:flutter/material.dart';
+import 'level_page.dart';
 
-class HomeScreen extends StatelessWidget {
-  final String language;
-  final String difficulty;
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-  const HomeScreen({Key? key, required this.language, required this.difficulty})
-      : super(key: key);
-
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Languify'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Selected language: $language',
-              style: TextStyle(fontSize: 24.0),
-            ),
-            SizedBox(height: 20.0),
-            Text(
-              'Selected difficulty: $difficulty',
-              style: TextStyle(fontSize: 24.0),
-            ),
-            SizedBox(height: 20.0),
-          ],
-        ),
+      appBar: AppBar(title: Text('Short Stories')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LevelPage(language: 'English'),
+                ),
+              );
+              // TODO: Add code to navigate to the LevelPage for English
+            },
+            child: Text('English'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LevelPage(language: 'Italiano'),
+                ),
+              );
+
+              // TODO: Add code to navigate to the LevelPage for Italiano
+            },
+            child: Text('Italiano'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LevelPage(language: '中文'),
+                ),
+              );
+              // TODO: Add code to navigate to the LevelPage for 中文
+            },
+            child: Text('中文'),
+          ),
+        ],
       ),
     );
+    // TODO: Add your widget tree for the HomePage here
   }
 }
