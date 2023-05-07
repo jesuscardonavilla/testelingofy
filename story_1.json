@@ -1,0 +1,15 @@
+[  {
+  "title": "The Story",
+  "body": "This is the bdfdfdy of the story.",
+  "choices": [
+    {
+      "text": "Choice 1",
+      "destination": 2
+    },
+    {
+      "text": "Choice 2",
+      "destination": 3
+    }
+  ]
+}
+]
