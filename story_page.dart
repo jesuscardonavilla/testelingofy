@@ -5,8 +5,20 @@ import 'dart:convert';
 class StoryPage extends StatefulWidget {
   final String language;
   final String level;
+  final String difficulty;
+  final String storyPath;
+  final String nextStory;
+  final String previousStory;
 
-  StoryPage({required this.language, required this.level});
+  const StoryPage({
+    required this.language,
+    required this.level,
+    required this.difficulty,
+    required this.storyPath,
+    required this.nextStory,
+    required this.previousStory,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _StoryPageState createState() => _StoryPageState();
