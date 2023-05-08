@@ -3,8 +3,13 @@ import 'package:lingofy_again/story_page.dart';
 
 class LevelPage extends StatefulWidget {
   final String language;
+  final String? difficulty;
 
-  const LevelPage({Key? key, required this.language}) : super(key: key);
+  const LevelPage({
+    Key? key,
+    required this.language,
+    this.difficulty,
+  }) : super(key: key);
 
   @override
   _LevelPageState createState() => _LevelPageState();
@@ -29,7 +34,6 @@ class _LevelPageState extends State<LevelPage> {
     },
   };
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +49,13 @@ class _LevelPageState extends State<LevelPage> {
                   builder: (context) => StoryPage(
                     language: widget.language,
                     level: 'Beginner',
+                    difficulty: 'Easy',
+                    storyPath: 'assets/data/english/beginner/story_1.json',
+                    nextStory: 'assets/data/english/beginner/story_2.json',
+                    previousStory: '',
                   ),
                 ),
               );
-
-              // TODO: Add code to navigate to the StoryPage for the beginner level
             },
             child: Text(levelLabels[widget.language]!['Beginner']!),
           ),
@@ -61,11 +67,13 @@ class _LevelPageState extends State<LevelPage> {
                   builder: (context) => StoryPage(
                     language: widget.language,
                     level: 'Intermediate',
+                    difficulty: 'Medium',
+                    storyPath: 'assets/stories/english/intermediate/story_1.txt',
+                    nextStory: 'assets/stories/english/intermediate/story_2.txt',
+                    previousStory: 'assets/stories/english/intermediate/story_0.txt',
                   ),
                 ),
               );
-
-              // TODO: Add code to navigate to the StoryPage for the intermediate level
             },
             child: Text(levelLabels[widget.language]!['Intermediate']!),
           ),
@@ -77,18 +85,19 @@ class _LevelPageState extends State<LevelPage> {
                   builder: (context) => StoryPage(
                     language: widget.language,
                     level: 'Advanced',
+                    difficulty: 'Hard',
+                    storyPath: 'assets/stories/english/advanced/story_1.txt',
+                    nextStory: 'assets/stories/english/advanced/story_2.txt',
+                    previousStory: 'assets/stories/english/advanced/story_0.txt',
                   ),
                 ),
               );
-
-              // TODO: Add code to navigate to the StoryPage for the advanced level
             },
-            child: Text(levelLabels[widget.language]!['Advanced']!)
-            ,
+            child: Text(levelLabels[widget.language]!['Advanced']!),
           ),
         ],
       ),
     );
-
   }
 }
+
