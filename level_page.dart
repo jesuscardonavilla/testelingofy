@@ -16,21 +16,57 @@ class LevelPage extends StatefulWidget {
 }
 
 class _LevelPageState extends State<LevelPage> {
-  final Map<String, Map<String, String>> levelLabels = {
+  final Map<String, Map<String, Map<String, String>>> levelLabels = {
     'English': {
-      'Beginner': 'Beginner',
-      'Intermediate': 'Intermediate',
-      'Advanced': 'Advanced',
+      'Beginner': {
+        'label': 'Beginner',
+        'story_1': 'assets/data/english/beginner/story_1.json',
+        'story_2': 'assets/data/english/beginner/story_2.json',
+      },
+      'Intermediate': {
+        'label': 'Intermediate',
+        'story_1': 'assets/data/english/intermediate/story_1.json',
+        'story_2': 'assets/data/english/intermediate/story_2.json',
+      },
+      'Advanced': {
+        'label': 'Advanced',
+        'story_1': 'assets/data/english/advanced/story_1.json',
+        'story_2': 'assets/data/english/advanced/story_2.json',
+      },
     },
     'Italiano': {
-      'Beginner': 'Principiante',
-      'Intermediate': 'Intermedio',
-      'Advanced': 'Avanzato',
+      'Beginner': {
+        'label': 'Principiante',
+        'story_1': 'assets/data/italiano/beginner/story_1.json',
+        'story_2': 'assets/data/italiano/beginner/story_2.json',
+      },
+      'Intermediate': {
+        'label': 'Intermedio',
+        'story_1': 'assets/data/italiano/intermediate/story_1.json',
+        'story_2': 'assets/data/italiano/intermediate/story_2.json',
+      },
+      'Advanced': {
+        'label': 'Avanzato',
+        'story_1': 'assets/data/italiano/advanced/story_1.json',
+        'story_2': 'assets/data/italiano/advanced/story_2.json',
+      },
     },
     '中文': {
-      'Beginner': '初学者',
-      'Intermediate': '中级',
-      'Advanced': '高级',
+      'Beginner': {
+        'label': '初学者',
+        'story_1': 'assets/data/chinese/beginner/story_1.json',
+        'story_2': 'assets/data/chinese/beginner/story_2.json',
+      },
+      'Intermediate': {
+        'label': '中级',
+        'story_1': 'assets/data/chinese/intermediate/story_1.json',
+        'story_2': 'assets/data/chinese/intermediate/story_2.json',
+      },
+      'Advanced': {
+        'label': '高级',
+        'story_1': 'assets/data/chinese/advanced/story_1.json',
+        'story_2': 'assets/data/chinese/advanced/story_2.json',
+      },
     },
   };
 
@@ -50,14 +86,14 @@ class _LevelPageState extends State<LevelPage> {
                     language: widget.language,
                     level: 'Beginner',
                     difficulty: 'Easy',
-                    storyPath: 'assets/data/english/beginner/story_1.json',
-                    nextStory: 'assets/data/english/beginner/story_2.json',
-                    previousStory: '',
+                    storyPath: levelLabels[widget.language]!['Beginner']!['story_1']!,
+                    nextStory: levelLabels[widget.language]!['Beginner']!['story_2']!,
+                    previousStory: ''
                   ),
                 ),
               );
             },
-            child: Text(levelLabels[widget.language]!['Beginner']!),
+            child: Text(levelLabels[widget.language]!['Beginner']!['label']!),
           ),
           ElevatedButton(
             onPressed: () {
@@ -68,15 +104,16 @@ class _LevelPageState extends State<LevelPage> {
                     language: widget.language,
                     level: 'Intermediate',
                     difficulty: 'Medium',
-                    storyPath: 'assets/stories/english/intermediate/story_1.txt',
-                    nextStory: 'assets/stories/english/intermediate/story_2.txt',
-                    previousStory: 'assets/stories/english/intermediate/story_0.txt',
+                    storyPath: levelLabels[widget.language]!['Intermediate']!['story_1']!,
+                    nextStory: levelLabels[widget.language]!['Intermediate']!['story_2']!,
+                    previousStory: levelLabels[widget.language]!['Intermediate']!['story_0']!,
                   ),
                 ),
               );
             },
-            child: Text(levelLabels[widget.language]!['Intermediate']!),
+            child: Text(levelLabels[widget.language]!['Intermediate']!['label']!),
           ),
+
           ElevatedButton(
             onPressed: () {
               Navigator.push(
@@ -86,14 +123,14 @@ class _LevelPageState extends State<LevelPage> {
                     language: widget.language,
                     level: 'Advanced',
                     difficulty: 'Hard',
-                    storyPath: 'assets/stories/english/advanced/story_1.txt',
-                    nextStory: 'assets/stories/english/advanced/story_2.txt',
-                    previousStory: 'assets/stories/english/advanced/story_0.txt',
+                    storyPath: levelLabels[widget.language]!['Advanced']!['story_1']!,
+                    nextStory: levelLabels[widget.language]!['Advanced']!['story_2']!,
+                    previousStory: levelLabels[widget.language]!['Advanced']!['story_0']!,
                   ),
                 ),
               );
             },
-            child: Text(levelLabels[widget.language]!['Advanced']!),
+            child: Text(levelLabels[widget.language]!['Advanced']!['label']!),
           ),
         ],
       ),
@@ -101,3 +138,4 @@ class _LevelPageState extends State<LevelPage> {
   }
 }
 
+           
