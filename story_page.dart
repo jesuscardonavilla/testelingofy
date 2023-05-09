@@ -11,13 +11,13 @@ class StoryPage extends StatefulWidget {
   final String previousStory;
 
   const StoryPage({
+    Key? key,
     required this.language,
     required this.level,
     required this.difficulty,
     required this.storyPath,
     required this.nextStory,
     required this.previousStory,
-    Key? key,
   }) : super(key: key);
 
   @override
@@ -25,60 +25,105 @@ class StoryPage extends StatefulWidget {
 }
 
 class _StoryPageState extends State<StoryPage> {
-  late Future<List<Section>> _storySectionsFuture;
+  late List<dynamic> _story;
+  late int _currentStoryIndex;
+  late bool _hasPreviousStory;
+  late bool _hasNextStory;
 
   @override
   void initState() {
     super.initState();
-    _storySectionsFuture = _loadStorySections();
+    _currentStoryIndex = 0;
+    _loadStory();
   }
 
-  Future<List<Section>> _loadStorySections() async {
-    String jsonString = await rootBundle.loadString(
-        'assets/data/${widget.language.toLowerCase()}/${widget.level.toLowerCase()}/story_1.json');
-    List<dynamic> jsonList = json.decode(jsonString);
-    List<Section> sections =
-    jsonList.map((s) => Section.fromJson(s)).toList();
-    return sections;
+  Future<void> _loadStory() async {
+    String storyContent = await rootBundle.loadString(widget.storyPath);
+    setState(() {
+      _story = json.decode(storyContent);
+      _hasPreviousStory = widget.previousStory.isNotEmpty;
+      _hasNextStory = widget.nextStory.isNotEmpty;
+    });
   }
 
-  Widget _buildSectionWidget(Section section) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          section.title,
-          style: TextStyle(fontWeight: FontWeight.bold),
+  void _goToPreviousStory() {
+    if (_hasPreviousStory) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => StoryPage(
+            language: widget.language,
+            level: widget.level,
+            difficulty: widget.difficulty,
+            storyPath: widget.previousStory,
+            nextStory: widget.storyPath,
+            previousStory: '',
+          ),
         ),
-        SizedBox(height: 8.0),
-        Text(section.body),
-        SizedBox(height: 16.0),
-      ],
-    );
+      );
+    }
+  }
+
+  void _goToNextStory() {
+    if (_hasNextStory) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => StoryPage(
+            language: widget.language,
+            level: widget.level,
+            difficulty: widget.difficulty,
+            storyPath: widget.nextStory,
+            nextStory: '',
+            previousStory: widget.storyPath,
+          ),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.language} ${widget.level} Story"),
+        title: Text('${widget.language} - ${widget.level} (${widget.difficulty})'),
       ),
-      body: Center(
-        child: FutureBuilder<List<Section>>(
-          future: _storySectionsFuture,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Section> sections = snapshot.data!;
-              return ListView(
-                padding: EdgeInsets.all(16.0),
-                children: sections.map((s) => _buildSectionWidget(s)).toList(),
-              );
-            } else if (snapshot.hasError) {
-              return Text("Error loading story sections: ${snapshot.error}");
-            } else {
-              return CircularProgressIndicator();
-            }
-          },
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Text(
+                  _story[_currentStoryIndex]['text'],
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+            ),
+            Container(
+              height: 50.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: _hasPreviousStory,
+                    child: ElevatedButton(
+                      onPressed: _goToPreviousStory,
+                      child: Icon(Icons.arrow_back),
+                    ),
+                  ),
+                  Visibility(
+                    visible: _hasNextStory,
+                    child: ElevatedButton(
+                      onPressed: _goToNextStory,
+                      child: Icon(Icons.arrow_forward),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
